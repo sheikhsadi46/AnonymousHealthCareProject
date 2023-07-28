@@ -3,7 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
 import Home from './screens/Home';
-import ProductScreen from './screens/ProductScreen';
+import DoctorScreen from './screens/DoctorScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
@@ -29,8 +29,12 @@ import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
-import ProductListScreen from './screens/ProductListScreen';
-import ProductEditScreen from './screens/ProductEditScreen';
+
+import ChatScreen from './screens/Chat/ChatScreen';
+
+
+import DoctorListScreen from './screens/DoctorListScreen';
+import DoctorEditScreen from './screens/DoctorEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
@@ -57,7 +61,7 @@ function App() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
+        const { data } = await axios.get(`/api/doctors/categories`);
         setCategories(data);
       } catch (err) {
         toast.error(getError(err));
@@ -112,11 +116,16 @@ function App() {
                       </Badge>
                     )}
                   </Link>
+                  {userInfo && (<Link to="/chat" className="nav-link">
+                    Chat
+                  
+                  </Link>)}
                   <Link to="/doctors" className="nav-link">
                     Docotor
                   
                   </Link>
                   {userInfo ? (
+                    
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
@@ -143,8 +152,8 @@ function App() {
                       <LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/products">
-                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      <LinkContainer to="/admin/doctors">
+                        <NavDropdown.Item>Doctors</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
@@ -185,11 +194,20 @@ function App() {
         <main>
           <Container className="mt-3">
             <Routes>
-              <Route path="/product/:slug" element={<ProductScreen />} />
+              <Route path="/doctor/:slug" element={<DoctorScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
+              
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <ChatScreen />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/forget-password"
                 element={<ForgetPasswordScreen />}
@@ -263,18 +281,18 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/products"
+                path="/admin/doctors"
                 element={
                   <AdminRoute>
-                    <ProductListScreen />
+                    <DoctorListScreen />
                   </AdminRoute>
                 }
               ></Route>
               <Route
-                path="/admin/product/:id"
+                path="/admin/doctor/:id"
                 element={
                   <AdminRoute>
-                    <ProductEditScreen />
+                    <DoctorEditScreen />
                   </AdminRoute>
                 }
               ></Route>

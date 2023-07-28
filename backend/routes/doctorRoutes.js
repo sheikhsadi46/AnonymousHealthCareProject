@@ -1,85 +1,85 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import Product from '../models/productModel.js';
+import Doctor from '../models/doctorModel.js';
 import { isAuth, isAdmin } from '../utils.js';
 
-const productRouter = express.Router();
+const doctorRouter = express.Router();
 
-productRouter.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.send(products);
+doctorRouter.get('/', async (req, res) => {
+  const doctors = await Doctor.find();
+  res.send(doctors);
 });
 
-productRouter.post(
+doctorRouter.post(
   '/',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const newProduct = new Product({
-      name: 'sample name ' + Date.now(),
-      slug: 'sample-name-' + Date.now(),
+    const newDoctor = new Doctor({
+      name: 'sample doctor ' + Date.now(),
+      slug: 'sample-doctor-' + Date.now(),
       image: '/images/p1.jpg',
       price: 0,
       category: 'sample category',
-      brand: 'sample brand',
+      university: 'sample university',
       countInStock: 0,
       rating: 0,
       numReviews: 0,
       description: 'sample description',
     });
-    const product = await newProduct.save();
-    res.send({ message: 'Product Created', product });
+    const doctor = await newDoctor.save();
+    res.send({ message: 'Doctor Created', doctor });
   })
 );
 
-productRouter.put(
+doctorRouter.put(
   '/:id',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (product) {
-      product.name = req.body.name;
-      product.slug = req.body.slug;
-      product.price = req.body.price;
-      product.image = req.body.image;
-      product.images = req.body.images;
-      product.category = req.body.category;
-      product.brand = req.body.brand;
-      product.countInStock = req.body.countInStock;
-      product.description = req.body.description;
-      await product.save();
-      res.send({ message: 'Product Updated' });
+    const doctorId = req.params.id;
+    const doctor = await Doctor.findById(doctorId);
+    if (doctor) {
+      doctor.name = req.body.name;
+      doctor.slug = req.body.slug;
+      doctor.price = req.body.price;
+      doctor.image = req.body.image;
+      doctor.images = req.body.images;
+      doctor.category = req.body.category;
+      doctor.university = req.body.university;
+      doctor.countInStock = req.body.countInStock;
+      doctor.description = req.body.description;
+      await doctor.save();
+      res.send({ message: 'Doctor Updated' });
     } else {
-      res.status(404).send({ message: 'Product Not Found' });
+      res.status(404).send({ message: 'Doctor Not Found' });
     }
   })
 );
 
-productRouter.delete(
+doctorRouter.delete(
   '/:id',
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      await product.remove();
-      res.send({ message: 'Product Deleted' });
+    const doctor = await Doctor.findById(req.params.id);
+    if (doctor) {
+      await doctor.remove();
+      res.send({ message: 'Doctor Deleted' });
     } else {
-      res.status(404).send({ message: 'Product Not Found' });
+      res.status(404).send({ message: 'Doctor Not Found' });
     }
   })
 );
 
-productRouter.post(
+doctorRouter.post(
   '/:id/reviews',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (product) {
-      if (product.reviews.find((x) => x.name === req.user.name)) {
+    const doctorId = req.params.id;
+    const doctor = await Doctor.findById(doctorId);
+    if (doctor) {
+      if (doctor.reviews.find((x) => x.name === req.user.name)) {
         return res
           .status(400)
           .send({ message: 'You already submitted a review' });
@@ -90,27 +90,27 @@ productRouter.post(
         rating: Number(req.body.rating),
         comment: req.body.comment,
       };
-      product.reviews.push(review);
-      product.numReviews = product.reviews.length;
-      product.rating =
-        product.reviews.reduce((a, c) => c.rating + a, 0) /
-        product.reviews.length;
-      const updatedProduct = await product.save();
+      doctor.reviews.push(review);
+      doctor.numReviews = doctor.reviews.length;
+      doctor.rating =
+        doctor.reviews.reduce((a, c) => c.rating + a, 0) /
+        doctor.reviews.length;
+      const updatedDoctor = await doctor.save();
       res.status(201).send({
         message: 'Review Created',
-        review: updatedProduct.reviews[updatedProduct.reviews.length - 1],
-        numReviews: product.numReviews,
-        rating: product.rating,
+        review: updatedDoctor.reviews[updatedDoctor.reviews.length - 1],
+        numReviews: doctor.numReviews,
+        rating: doctor.rating,
       });
     } else {
-      res.status(404).send({ message: 'Product Not Found' });
+      res.status(404).send({ message: 'Doctor Not Found' });
     }
   })
 );
 
 const PAGE_SIZE = 3;
 
-productRouter.get(
+doctorRouter.get(
   '/admin',
   isAuth,
   isAdmin,
@@ -119,20 +119,20 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
-    const products = await Product.find()
+    const doctors = await Doctor.find()
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-    const countProducts = await Product.countDocuments();
+    const countDoctors = await Doctor.countDocuments();
     res.send({
-      products,
-      countProducts,
+      doctors,
+      countDoctors,
       page,
-      pages: Math.ceil(countProducts / pageSize),
+      pages: Math.ceil(countDoctors / pageSize),
     });
   })
 );
 
-productRouter.get(
+doctorRouter.get(
   '/search',
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
@@ -185,7 +185,7 @@ productRouter.get(
         ? { createdAt: -1 }
         : { _id: -1 };
 
-    const products = await Product.find({
+    const doctors = await Doctor.find({
       ...queryFilter,
       ...categoryFilter,
       ...priceFilter,
@@ -195,44 +195,44 @@ productRouter.get(
       .skip(pageSize * (page - 1))
       .limit(pageSize);
 
-    const countProducts = await Product.countDocuments({
+    const countDoctors = await Doctor.countDocuments({
       ...queryFilter,
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
     });
     res.send({
-      products,
-      countProducts,
+      doctors,
+      countDoctors,
       page,
-      pages: Math.ceil(countProducts / pageSize),
+      pages: Math.ceil(countDoctors / pageSize),
     });
   })
 );
 
-productRouter.get(
+doctorRouter.get(
   '/categories',
   expressAsyncHandler(async (req, res) => {
-    const categories = await Product.find().distinct('category');
+    const categories = await Doctor.find().distinct('category');
     res.send(categories);
   })
 );
 
-productRouter.get('/slug/:slug', async (req, res) => {
-  const product = await Product.findOne({ slug: req.params.slug });
-  if (product) {
-    res.send(product);
+doctorRouter.get('/slug/:slug', async (req, res) => {
+  const doctor = await Doctor.findOne({ slug: req.params.slug });
+  if (doctor) {
+    res.send(doctor);
   } else {
-    res.status(404).send({ message: 'Product Not Found' });
+    res.status(404).send({ message: 'Doctor Not Found' });
   }
 });
-productRouter.get('/:id', async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  if (product) {
-    res.send(product);
+doctorRouter.get('/:id', async (req, res) => {
+  const doctor = await Doctor.findById(req.params.id);
+  if (doctor) {
+    res.send(doctor);
   } else {
-    res.status(404).send({ message: 'Product Not Found' });
+    res.status(404).send({ message: 'Doctor Not Found' });
   }
 });
 
-export default productRouter;
+export default doctorRouter;

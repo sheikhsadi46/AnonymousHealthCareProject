@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 const reducer = (state, action) => {
   switch (action.type) {
     case 'REFRESH_PRODUCT':
-      return { ...state, product: action.payload };
+      return { ...state, doctor: action.payload };
     case 'CREATE_REQUEST':
       return { ...state, loadingCreateReview: true };
     case 'CREATE_SUCCESS':
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
     case 'FETCH_SUCCESS':
-      return { ...state, product: action.payload, loading: false };
+      return { ...state, doctor: action.payload, loading: false };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
@@ -38,7 +38,7 @@ const reducer = (state, action) => {
   }
 };
 
-function ProductScreen() {
+function DoctorScreen() {
   let reviewsRef = useRef();
 
   const [rating, setRating] = useState(0);
@@ -49,9 +49,9 @@ function ProductScreen() {
   const params = useParams();
   const { slug } = params;
 
-  const [{ loading, error, product, loadingCreateReview }, dispatch] =
+  const [{ loading, error, doctor, loadingCreateReview }, dispatch] =
     useReducer(reducer, {
-      product: [],
+      doctor: [],
       loading: true,
       error: '',
     });
@@ -59,7 +59,7 @@ function ProductScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const result = await axios.get(`/api/products/slug/${slug}`);
+        const result = await axios.get(`/api/doctors/slug/${slug}`);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
@@ -71,16 +71,16 @@ function ProductScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const existItem = cart.cartItems.find((x) => x._id === doctor._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/products/${product._id}`);
+    const { data } = await axios.get(`/api/doctors/${doctor._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
+      window.alert('Sorry. Doctor is out of stock');
       return;
     }
     ctxDispatch({
       type: 'CART_ADD_ITEM',
-      payload: { ...product, quantity },
+      payload: { ...doctor, quantity },
     });
     navigate('/cart');
   };
@@ -93,7 +93,7 @@ function ProductScreen() {
     }
     try {
       const { data } = await axios.post(
-        `/api/products/${product._id}/reviews`,
+        `/api/doctors/${doctor._id}/reviews`,
         { rating, comment, name: userInfo.name },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -104,10 +104,10 @@ function ProductScreen() {
         type: 'CREATE_SUCCESS',
       });
       toast.success('Review submitted successfully');
-      product.reviews.unshift(data.review);
-      product.numReviews = data.numReviews;
-      product.rating = data.rating;
-      dispatch({ type: 'REFRESH_PRODUCT', payload: product });
+      doctor.reviews.unshift(data.review);
+      doctor.numReviews = data.numReviews;
+      doctor.rating = data.rating;
+      dispatch({ type: 'REFRESH_PRODUCT', payload: doctor });
       window.scrollTo({
         behavior: 'smooth',
         top: reviewsRef.current.offsetTop,
@@ -127,28 +127,28 @@ function ProductScreen() {
         <Col md={6}>
           <img
             className="img-large"
-            src={selectedImage || product.image}
-            alt={product.name}
+            src={selectedImage || doctor.image}
+            alt={doctor.name}
           ></img>
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <Helmet>
-                <title>{product.name}</title>
+                <title>{doctor.name}</title>
               </Helmet>
-              <h1>{product.name}</h1>
+              <h1>{doctor.name}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
               <Rating
-                rating={product.rating}
-                numReviews={product.numReviews}
+                rating={doctor.rating}
+                numReviews={doctor.numReviews}
               ></Rating>
             </ListGroup.Item>
-            <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Fee : {doctor.price} TK</ListGroup.Item>
             <ListGroup.Item>
               <Row xs={1} md={2} className="g-2">
-                {[product.image, ...product.images].map((x) => (
+                {[doctor.image, ...doctor.images].map((x) => (
                   <Col key={x}>
                     <Card>
                       <Button
@@ -157,7 +157,7 @@ function ProductScreen() {
                         variant="light"
                         onClick={() => setSelectedImage(x)}
                       >
-                        <Card.Img variant="top" src={x} alt="product" />
+                        <Card.Img variant="top" src={x} alt="doctor" />
                       </Button>
                     </Card>
                   </Col>
@@ -165,8 +165,12 @@ function ProductScreen() {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
+              University:
+              <p>{doctor.university}</p>
+            </ListGroup.Item>
+            <ListGroup.Item>
               Description:
-              <p>{product.description}</p>
+              <p>{doctor.description}</p>
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -176,16 +180,16 @@ function ProductScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price:</Col>
-                    <Col>${product.price}</Col>
+                    <Col>Fee:</Col>
+                    <Col>{doctor.price} TK</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Status:</Col>
                     <Col>
-                      {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
+                      {doctor.countInStock > 0 ? (
+                        <Badge bg="success">Available</Badge>
                       ) : (
                         <Badge bg="danger">Unavailable</Badge>
                       )}
@@ -193,11 +197,11 @@ function ProductScreen() {
                   </Row>
                 </ListGroup.Item>
 
-                {product.countInStock > 0 && (
+                {doctor.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
+                      Book An Appointment
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -210,12 +214,12 @@ function ProductScreen() {
       <div className="my-3">
         <h2 ref={reviewsRef}>Reviews</h2>
         <div className="mb-3">
-          {product.reviews.length === 0 && (
+          {doctor.reviews.length === 0 && (
             <MessageBox>There is no review</MessageBox>
           )}
         </div>
         <ListGroup>
-          {product.reviews.map((review) => (
+          {doctor.reviews.map((review) => (
             <ListGroup.Item key={review._id}>
               <strong>{review.name}</strong>
               <Rating rating={review.rating} caption=" "></Rating>
@@ -266,7 +270,7 @@ function ProductScreen() {
           ) : (
             <MessageBox>
               Please{' '}
-              <Link to={`/signin?redirect=/product/${product.slug}`}>
+              <Link to={`/signin?redirect=/doctor/${doctor.slug}`}>
                 Sign In
               </Link>{' '}
               to write a review
@@ -277,4 +281,4 @@ function ProductScreen() {
     </div>
   );
 }
-export default ProductScreen;
+export default DoctorScreen;

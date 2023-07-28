@@ -17,7 +17,7 @@ const reducer = (state, action) => {
     case 'FETCH_SUCCESS':
       return {
         ...state,
-        products: action.payload.products,
+        doctors: action.payload.doctors,
         page: action.payload.page,
         pages: action.payload.pages,
         loading: false,
@@ -52,12 +52,12 @@ const reducer = (state, action) => {
   }
 };
 
-export default function ProductListScreen() {
+export default function DoctorListScreen() {
   const [
     {
       loading,
       error,
-      products,
+      doctors,
       pages,
       loadingCreate,
       loadingDelete,
@@ -80,7 +80,7 @@ export default function ProductListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/products/admin?page=${page} `, {
+        const { data } = await axios.get(`/api/doctors/admin?page=${page} `, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
 
@@ -100,15 +100,15 @@ export default function ProductListScreen() {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
-          '/api/products',
+          '/api/doctors',
           {},
           {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           }
         );
-        toast.success('product created successfully');
+        toast.success('doctor created successfully');
         dispatch({ type: 'CREATE_SUCCESS' });
-        navigate(`/admin/product/${data.product._id}`);
+        navigate(`/admin/doctor/${data.doctor._id}`);
       } catch (err) {
         toast.error(getError(error));
         dispatch({
@@ -118,13 +118,13 @@ export default function ProductListScreen() {
     }
   };
 
-  const deleteHandler = async (product) => {
+  const deleteHandler = async (doctor) => {
     if (window.confirm('Are you sure to delete?')) {
       try {
-        await axios.delete(`/api/products/${product._id}`, {
+        await axios.delete(`/api/doctors/${doctor._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('product deleted successfully');
+        toast.success('doctor deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (err) {
         toast.error(getError(error));
@@ -139,12 +139,12 @@ export default function ProductListScreen() {
     <div>
       <Row>
         <Col>
-          <h1>Products</h1>
+          <h1>Doctors</h1>
         </Col>
         <Col className="col text-end">
           <div>
             <Button type="button" onClick={createHandler}>
-              Create Product
+              Create Doctor
             </Button>
           </div>
         </Col>
@@ -164,25 +164,25 @@ export default function ProductListScreen() {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>PRICE</th>
+                <th>FEE</th>
                 <th>CATEGORY</th>
-                <th>BRAND</th>
+                <th>UNIVERSITY</th>
                 <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
+              {doctors.map((doctor) => (
+                <tr key={doctor._id}>
+                  <td>{doctor._id}</td>
+                  <td>{doctor.name}</td>
+                  <td>{doctor.price}</td>
+                  <td>{doctor.category}</td>
+                  <td>{doctor.university}</td>
                   <td>
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                      onClick={() => navigate(`/admin/doctor/${doctor._id}`)}
                     >
                       Edit
                     </Button>
@@ -190,7 +190,7 @@ export default function ProductListScreen() {
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => deleteHandler(product)}
+                      onClick={() => deleteHandler(doctor)}
                     >
                       Delete
                     </Button>
@@ -204,7 +204,7 @@ export default function ProductListScreen() {
               <Link
                 className={x + 1 === Number(page) ? 'btn text-bold' : 'btn'}
                 key={x + 1}
-                to={`/admin/products?page=${x + 1}`}
+                to={`/admin/doctors?page=${x + 1}`}
               >
                 {x + 1}
               </Link>

@@ -6,8 +6,8 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { Store } from '../Store';
 
-function Product(props) {
-  const { product } = props;
+function Doctor(props) {
+  const { doctor } = props;
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
@@ -15,11 +15,11 @@ function Product(props) {
   } = state;
 
   const addToCartHandler = async (item) => {
-    const existItem = cartItems.find((x) => x._id === product._id);
+    const existItem = cartItems.find((x) => x._id === doctor._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/products/${item._id}`);
+    const { data } = await axios.get(`/api/doctors/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
+      window.alert('Sorry. Doctor is out of stock');
       return;
     }
     ctxDispatch({
@@ -30,24 +30,24 @@ function Product(props) {
 
   return (
     <Card>
-      <Link to={`/product/${product.slug}`}>
-        <img src={product.image} className="card-img-top" alt={product.name} />
+      <Link to={`/doctor/${doctor.slug}`}>
+        <img src={doctor.image} className="card-img-top" alt={doctor.name} />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product.slug}`}>
-          <Card.Title>{product.name}</Card.Title>
+        <Link to={`/doctor/${doctor.slug}`}>
+          <Card.Title>{doctor.name}</Card.Title>
         </Link>
-        <Rating rating={product.rating} numReviews={product.numReviews} />
-        <Card.Text>${product.price}</Card.Text>
-        {product.countInStock === 0 ? (
+        <Rating rating={doctor.rating} numReviews={doctor.numReviews} />
+        <Card.Text>Fee: {doctor.price} TK</Card.Text>
+        {doctor.countInStock === 0 ? (
           <Button variant="light" disabled>
-            Out of stock
+            Unavailable
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(product)}>Add to cart</Button>
+          <Button onClick={() => addToCartHandler(doctor)}>Book An Appointment</Button>
         )}
       </Card.Body>
     </Card>
   );
 }
-export default Product;
+export default Doctor;

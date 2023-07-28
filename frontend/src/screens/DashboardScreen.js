@@ -117,7 +117,7 @@ export default function DashboardScreen() {
           </div>
           <div className="my-3">
             <h2>Categories</h2>
-            {summary.productCategories.length === 0 ? (
+            {summary.doctorCategories.length === 0 ? (
               <MessageBox>No Category</MessageBox>
             ) : (
               <Chart
@@ -126,8 +126,8 @@ export default function DashboardScreen() {
                 chartType="PieChart"
                 loader={<div>Loading Chart...</div>}
                 data={[
-                  ['Category', 'Products'],
-                  ...summary.productCategories.map((x) => [x._id, x.count]),
+                  ['Category', 'Doctors'],
+                  ...summary.doctorCategories.map((x) => [x._id, x.count]),
                 ]}
               ></Chart>
             )}

@@ -41,10 +41,10 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export default function ProductEditScreen() {
+export default function DoctorEditScreen() {
   const navigate = useNavigate();
-  const params = useParams(); // /product/:id
-  const { id: productId } = params;
+  const params = useParams(); // /doctor/:id
+  const { id: doctorId } = params;
 
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -61,14 +61,14 @@ export default function ProductEditScreen() {
   const [images, setImages] = useState([]);
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState('');
-  const [brand, setBrand] = useState('');
+  const [university, setUniversity] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/products/${productId}`);
+        const { data } = await axios.get(`/api/doctors/${doctorId}`);
         setName(data.name);
         setSlug(data.slug);
         setPrice(data.price);
@@ -76,7 +76,7 @@ export default function ProductEditScreen() {
         setImages(data.images);
         setCategory(data.category);
         setCountInStock(data.countInStock);
-        setBrand(data.brand);
+        setUniversity(data.university);
         setDescription(data.description);
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
@@ -87,23 +87,23 @@ export default function ProductEditScreen() {
       }
     };
     fetchData();
-  }, [productId]);
+  }, [doctorId]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
-        `/api/products/${productId}`,
+        `/api/doctors/${doctorId}`,
         {
-          _id: productId,
+          _id: doctorId,
           name,
           slug,
           price,
           image,
           images,
           category,
-          brand,
+          university,
           countInStock,
           description,
         },
@@ -114,8 +114,8 @@ export default function ProductEditScreen() {
       dispatch({
         type: 'UPDATE_SUCCESS',
       });
-      toast.success('Product updated successfully');
-      navigate('/admin/products');
+      toast.success('Doctor updated successfully');
+      navigate('/admin/doctors');
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: 'UPDATE_FAIL' });
@@ -156,9 +156,9 @@ export default function ProductEditScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Edit Product ${productId}</title>
+        <title>Edit Doctor ${doctorId}</title>
       </Helmet>
-      <h1>Edit Product {productId}</h1>
+      <h1>Edit Doctor {doctorId}</h1>
 
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -183,7 +183,7 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>Fee</Form.Label>
             <Form.Control
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -235,11 +235,11 @@ export default function ProductEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="brand">
-            <Form.Label>Brand</Form.Label>
+          <Form.Group className="mb-3" controlId="university">
+            <Form.Label>University</Form.Label>
             <Form.Control
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
+              value={university}
+              onChange={(e) => setUniversity(e.target.value)}
               required
             />
           </Form.Group>

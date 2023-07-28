@@ -16,7 +16,7 @@ const Home = () => {
               <div>
                 <div className="lg:w-[570px]">
                   <h1 className="text-[36px] leading-[46px] text-headingColor font-[800] md:text-[60px] md:leading-[70px]">
-                    We help patients live a healthy, longer life.
+                    We help patients live a healthy, longer life. Anonymously
                   </h1>
                   <p className="text-para">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
