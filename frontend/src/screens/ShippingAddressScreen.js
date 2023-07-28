@@ -14,7 +14,7 @@ export default function ShippingAddressScreen() {
     userInfo,
     cart: { shippingAddress },
   } = state;
-  const [fullName, setFullName] = useState(shippingAddress.fullName || '');
+  const [fullName, setFullName] = useState(shippingAddress.fullName || 'Anonymous');
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
   const [postalCode, setPostalCode] = useState(
@@ -60,12 +60,12 @@ export default function ShippingAddressScreen() {
   return (
     <div>
       <Helmet>
-        <title>Shipping Address</title>
+        <title>Address</title>
       </Helmet>
 
       <CheckoutSteps step1 step2></CheckoutSteps>
       <div className="container small-container">
-        <h1 className="my-3">Shipping Address</h1>
+        <h1 className="my-3">Address</h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
             <Form.Label>Full Name</Form.Label>

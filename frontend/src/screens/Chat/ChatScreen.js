@@ -2,12 +2,12 @@
 import React, { useContext, useReducer, useState } from 'react';
 
 import './chat.css';
-import {useSelector } from 'react-redux';
-import { useEffect } from "react";
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { Store } from '../../Store';
 import { getError } from '../../utils';
 import axios from 'axios';
-import Conversation from "../../components/Conversation";
+import Conversation from '../../components/Conversation';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,24 +27,22 @@ const Chat = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
   console.log(userInfo);
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState([]);
   // Get the chat in chat section
   useEffect(() => {
-    const getChats = async () => {   
+    const getChats = async () => {
       try {
-        const {data} = await axios.get(`/api/chat/${userInfo._id}`);
-        setChats(data)
-        console.log(data)
-        
+        const { data } = await axios.get(`/api/chat/${userInfo._id}`);
+        setChats(data);
+        console.log(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         // dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
-
     };
     getChats();
   }, [userInfo]);
-      
+
   return (
     <div className="Chat">
       {/* Left Side */}
@@ -55,9 +53,9 @@ const Chat = () => {
           <div className="Chat-list">
             {chats.map((chat) => (
               <div
-                // onClick={() => {
-                //   setCurrentChat(chat);
-                // }}
+              // onClick={() => {
+              //   setCurrentChat(chat);
+              // }}
               >
                 <Conversation
                   data={chat}

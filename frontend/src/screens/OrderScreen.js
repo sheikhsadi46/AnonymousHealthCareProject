@@ -228,7 +228,7 @@ export default function OrderScreen() {
                   Confirmed at {order.deliveredAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Not Delivered</MessageBox>
+                <MessageBox variant="danger">Not Confirmed</MessageBox>
               )}
             </Card.Body>
               
