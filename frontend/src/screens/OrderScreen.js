@@ -218,15 +218,21 @@ export default function OrderScreen() {
                     </a>
                   )}
               </Card.Text>
+            </Card.Body>
+          </Card>
+          <Card className="mb-3">
+            <Card.Body>
+            <Card.Title>Confirmation</Card.Title>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Delivered at {order.deliveredAt}
+                  Confirmed at {order.deliveredAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Delivered</MessageBox>
               )}
             </Card.Body>
-          </Card>
+              
+              </Card>
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
@@ -245,7 +251,7 @@ export default function OrderScreen() {
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Items</Card.Title>
+              <Card.Title>Doctors</Card.Title>
               <ListGroup variant="flush">
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
@@ -257,9 +263,10 @@ export default function OrderScreen() {
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
                         <Link to={`/doctor/${item.slug}`}>{item.name}</Link>
+                        
                       </Col>
                       <Col md={3}>
-                        <span>{item.quantity}</span>
+                      
                       </Col>
                       <Col md={3}>{item.price} TK</Col>
                     </Row>
@@ -323,7 +330,7 @@ export default function OrderScreen() {
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className="d-grid">
                       <Button type="button" onClick={deliverOrderHandler}>
-                        Deliver Order
+                        Confirm Booinkg
                       </Button>
                     </div>
                   </ListGroup.Item>

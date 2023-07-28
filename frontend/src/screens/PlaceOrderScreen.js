@@ -115,7 +115,7 @@ export default function PlaceOrderScreen() {
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Items</Card.Title>
+              <Card.Title>Doctors</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
@@ -126,10 +126,11 @@ export default function PlaceOrderScreen() {
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
-                        <Link to={`/doctor/${item.slug}`}>{item.name}</Link>
+                        <Link to={`/doctor/${item.slug}`}>{item.name}</Link> 
+                        
                       </Col>
                       <Col md={3}>
-                        <span>{item.quantity}</span>
+                      
                       </Col>
                       <Col md={3}>{item.price} TK</Col>
                     </Row>
