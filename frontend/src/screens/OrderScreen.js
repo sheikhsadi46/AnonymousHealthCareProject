@@ -186,24 +186,6 @@ export default function OrderScreen() {
       dispatch({ type: 'CONFIRM_FAIL' });
     }
   }
-  async function anonymousHandler() {
-    try {
-      dispatch({ type: 'PAY_REQUEST' });
-        const { data } = await axios.put(
-          `/api/orders/${order._id}/pay`,
-          {},
-          {
-            headers: { authorization: `Bearer ${userInfo.token}` },
-          }
-        );
-        dispatch({ type: 'PAY_SUCCESS', payload: data });
-        toast.success('Order is paid');
-      } catch (err) {
-        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-        toast.error(getError(err));
-      }
-    }
-  
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -278,10 +260,10 @@ export default function OrderScreen() {
               )):(
                 order.isDelivered ? (
                   <MessageBox variant="success">
-                  Paid at {order.paidAt}
+                  Paid at {order.deliveredAt}
                   </MessageBox>
                 ) : (
-                  <MessageBox variant="danger">Not Confirmed</MessageBox>
+                  <MessageBox variant="danger">Not Paid</MessageBox>
                 )
               )}
             </Card.Body>
@@ -363,21 +345,12 @@ export default function OrderScreen() {
                     {loadingPay && <LoadingBox></LoadingBox>}
                   </ListGroup.Item>
                 )}
-                {/* ======= */}
-                {userInfo.isAdmin && !order.isDelivered&& order.paymentMethod === 'PayPal' ? (
+                {/* ==== */}
+                {userInfo.isAdmin && !order.isDelivered && (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className="d-grid">
                       <Button type="button" onClick={deliverOrderHandler}>
-                        Confirm Booinkg
-                      </Button>
-                    </div>
-                  </ListGroup.Item>
-                ):(
-                  <ListGroup.Item>
-                    {loadingDeliver && <LoadingBox></LoadingBox>}
-                    <div className="d-grid">
-                      <Button type="button" onClick={deliverOrderHandler && anonymousHandler}>
                         Confirm Booinkg
                       </Button>
                     </div>
