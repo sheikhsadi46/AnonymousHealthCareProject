@@ -72,17 +72,17 @@ function DoctorScreen() {
   const { cart, userInfo } = state;
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === doctor._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const quantity = existItem ? existItem.quantity : 1;
     const { data } = await axios.get(`/api/doctors/${doctor._id}`);
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Doctor is out of stock');
+    if (data.availabilityStatus < quantity) {
+      window.alert('Sorry. Doctor is not available');
       return;
     }
     ctxDispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...doctor, quantity },
     });
-    navigate('/cart');
+    navigate('/address');
   };
 
   const submitHandler = async (e) => {
@@ -130,7 +130,74 @@ function DoctorScreen() {
             src={selectedImage || doctor.image}
             alt={doctor.name}
           ></img>
+          <h1></h1>
+
+          <Col md={6}>
+            <Card>
+              <Card.Body>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Fee:</Col>
+                      <Col>{doctor.price} TK</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Status:</Col>
+                      <Col>
+                        {doctor.availabilityStatus > 0 ? (
+                          <Badge bg="success">Available</Badge>
+                        ) : (
+                          <Badge bg="danger">Unavailable</Badge>
+                        )}
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  {doctor.availabilityStatus === true && (
+                    <ListGroup.Item>
+                      <div className="d-grid">
+                        <Button onClick={addToCartHandler} variant="primary">
+                          Book An Appointment
+                        </Button>
+                      </div>
+                    </ListGroup.Item>
+                  )}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </Col>
         </Col>
+        {/*<Col md={3}>
+         <Card>
+        <Card.Body>
+                <ListGroup variant="flush">
+            <ListGroup.Item>
+              <div className="d-grid">
+                <Button onClick='' variant="primary">
+                  Chat
+                </Button>
+              </div>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <div className="d-grid">
+                <Button onClick='' variant="primary">
+                  Video Call
+                </Button>
+              </div>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <div className="d-grid">
+                <Button onClick='' variant="primary">
+                  View Pescription
+                </Button>
+              </div>
+            </ListGroup.Item>
+            </ListGroup>
+              </Card.Body>
+              </Card>
+        </Col> */}
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
@@ -174,7 +241,7 @@ function DoctorScreen() {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col md={3}>
+        {/* <Col md={3}>
           <Card>
             <Card.Body>
               <ListGroup variant="flush">
@@ -188,7 +255,7 @@ function DoctorScreen() {
                   <Row>
                     <Col>Status:</Col>
                     <Col>
-                      {doctor.countInStock > 0 ? (
+                      {doctor.availabilityStatus > 0 ? (
                         <Badge bg="success">Available</Badge>
                       ) : (
                         <Badge bg="danger">Unavailable</Badge>
@@ -197,11 +264,11 @@ function DoctorScreen() {
                   </Row>
                 </ListGroup.Item>
 
-                {doctor.countInStock > 0 && (
+                {doctor.availabilityStatus > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">
-                      Book An Appointment
+                        Book An Appointment
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -209,7 +276,7 @@ function DoctorScreen() {
               </ListGroup>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       <div className="my-3">
         <h2 ref={reviewsRef}>Reviews</h2>

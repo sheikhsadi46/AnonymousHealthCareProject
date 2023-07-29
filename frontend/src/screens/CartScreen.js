@@ -39,14 +39,14 @@ export default function CartScreen() {
   return (
     <div>
       <Helmet>
-        <title>Shopping Cart</title>
+        <title>Your Bookings</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1>Your Bookings</h1>
       <Row>
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+              You have no Bookings. <Link to="/doctors"> Book an Appointment</Link>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -62,7 +62,7 @@ export default function CartScreen() {
                       <Link to={`/doctor/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>
-                      <Button
+                      {/* <Button
                         onClick={() =>
                           updateCartHandler(item, item.quantity - 1)
                         }
@@ -80,7 +80,7 @@ export default function CartScreen() {
                         disabled={item.quantity === item.countInStock}
                       >
                         <i className="fas fa-plus-circle"></i>
-                      </Button>
+                      </Button> */}
                     </Col>
                     <Col md={3}>${item.price}</Col>
                     <Col md={2}>

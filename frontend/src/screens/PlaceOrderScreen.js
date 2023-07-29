@@ -106,9 +106,17 @@ export default function PlaceOrderScreen() {
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
-              <Card.Text>
-                <strong>Method:</strong> {cart.paymentMethod}
-              </Card.Text>
+              {cart.paymentMethod === 'PayPal' ? (
+                <Card.Text>
+                  <strong>Method:</strong> {cart.paymentMethod}
+                </Card.Text>
+              ) : (
+                <Card.Text>
+                  <strong>Method: </strong> Anonymous
+                  <br />
+                  <strong>Tansaction ID:</strong> {cart.paymentMethod}
+                </Card.Text>
+              )}
               <Link to="/payment">Edit</Link>
             </Card.Body>
           </Card>
@@ -126,12 +134,9 @@ export default function PlaceOrderScreen() {
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
-                        <Link to={`/doctor/${item.slug}`}>{item.name}</Link> 
-                        
+                        <Link to={`/doctor/${item.slug}`}>{item.name}</Link>
                       </Col>
-                      <Col md={3}>
-                      
-                      </Col>
+                      <Col md={3}></Col>
                       <Col md={3}>{item.price} TK</Col>
                     </Row>
                   </ListGroup.Item>

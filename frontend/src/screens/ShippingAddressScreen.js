@@ -14,18 +14,20 @@ export default function ShippingAddressScreen() {
     userInfo,
     cart: { shippingAddress },
   } = state;
-  const [fullName, setFullName] = useState(shippingAddress.fullName || 'Anonymous');
-  const [address, setAddress] = useState(shippingAddress.address || '');
-  const [city, setCity] = useState(shippingAddress.city || '');
+  const [fullName, setFullName] = useState(
+    shippingAddress.fullName || 'Anonymous'
+  );
+  const [address, setAddress] = useState(shippingAddress.address || ' ');
+  const [city, setCity] = useState(shippingAddress.city || ' ');
   const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ''
+    shippingAddress.postalCode || ' '
   );
   useEffect(() => {
     if (!userInfo) {
       navigate('/signin?redirect=/shipping');
     }
   }, [userInfo, navigate]);
-  const [country, setCountry] = useState(shippingAddress.country || '');
+  const [country, setCountry] = useState(shippingAddress.country || ' ');
   const submitHandler = (e) => {
     e.preventDefault();
     ctxDispatch({
@@ -79,8 +81,8 @@ export default function ShippingAddressScreen() {
             <Form.Label>Address</Form.Label>
             <Form.Control
               value={address}
+              placeholder="Optional"
               onChange={(e) => setAddress(e.target.value)}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="city">
@@ -88,7 +90,6 @@ export default function ShippingAddressScreen() {
             <Form.Control
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="postalCode">
@@ -96,7 +97,6 @@ export default function ShippingAddressScreen() {
             <Form.Control
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="country">
@@ -104,7 +104,6 @@ export default function ShippingAddressScreen() {
             <Form.Control
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              required
             />
           </Form.Group>
           <div className="mb-3">

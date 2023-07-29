@@ -175,13 +175,23 @@ userRouter.post(
     res.status(401).send({ message: 'Invalid email or password' });
   })
 );
-
+const generateRandomUser = () => {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let randomUser = '';
+  for (let i = 0; i < 6; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    randomUser += chars[randomIndex];
+  }
+  return randomUser;
+};
 userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {
+    const randomUser = generateRandomUser();
     const newUser = new User({
       name: req.body.name,
-      email: req.body.email,
+      email: `${randomUser}`, // Generate a shorter random email
+      // email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
     });
     const user = await newUser.save();

@@ -22,7 +22,7 @@ doctorRouter.post(
       price: 0,
       category: 'sample category',
       university: 'sample university',
-      countInStock: 0,
+      availabilityStatus: true,
       rating: 0,
       numReviews: 0,
       description: 'sample description',
@@ -47,7 +47,7 @@ doctorRouter.put(
       doctor.images = req.body.images;
       doctor.category = req.body.category;
       doctor.university = req.body.university;
-      doctor.countInStock = req.body.countInStock;
+      doctor.availabilityStatus = req.body.availabilityStatus;
       doctor.description = req.body.description;
       await doctor.save();
       res.send({ message: 'Doctor Updated' });

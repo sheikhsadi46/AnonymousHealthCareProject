@@ -18,8 +18,8 @@ function Doctor(props) {
     const existItem = cartItems.find((x) => x._id === doctor._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/doctors/${item._id}`);
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Doctor is out of stock');
+    if (data.availabilityStatus === false) {
+      window.alert('Sorry. Doctor is not available');
       return;
     }
     ctxDispatch({
@@ -39,12 +39,12 @@ function Doctor(props) {
         </Link>
         <Rating rating={doctor.rating} numReviews={doctor.numReviews} />
         <Card.Text>Fee: {doctor.price} TK</Card.Text>
-        {doctor.countInStock === 0 ? (
+        {doctor.availabilityStatus === false ? (
           <Button variant="light" disabled>
             Unavailable
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(doctor)}>Book An Appointment</Button>
+          <Link to={`/doctor/${doctor.slug}`}><Button>SELECT</Button></Link>
         )}
       </Card.Body>
     </Card>

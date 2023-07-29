@@ -111,10 +111,10 @@ export default function UserEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>UserID</Form.Label>
             <Form.Control
               value={email}
-              type="email"
+              type="text"
               onChange={(e) => setEmail(e.target.value)}
               required
             />

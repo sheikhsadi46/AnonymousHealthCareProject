@@ -60,14 +60,14 @@ export default function SignupScreen() {
           <Form.Control onChange={(e) => setName(e.target.value)} required />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="email">
+        {/* <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            required
+            
             onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
+          /> 
+        </Form.Group>*/}
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control

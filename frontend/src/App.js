@@ -32,7 +32,6 @@ import AdminRoute from './components/AdminRoute';
 
 import ChatScreen from './screens/Chat/ChatScreen';
 
-
 import DoctorListScreen from './screens/DoctorListScreen';
 import DoctorEditScreen from './screens/DoctorEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
@@ -42,7 +41,7 @@ import MapScreen from './screens/MapScreen';
 import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import Footer from './components/Footer';
-import Logo from "./assets/images/logo2.png";
+import Logo from './assets/images/logo2.png';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -83,8 +82,7 @@ function App() {
         }
       >
         <ToastContainer position="bottom-center" limit={1} />
-        <header >
-        
+        <header>
           {/* <Header/> */}
           <Navbar bg="light" variant="light" expand="lg">
             <Container>
@@ -96,42 +94,42 @@ function App() {
               </Button> */}
 
               <LinkContainer to="/">
-                <Navbar.Brand><div >
-            <Link to="/">
-              <img src={Logo} alt="" />
-            </Link>
-          </div></Navbar.Brand>
+                <Navbar.Brand>
+                  <div>
+                    <Link to="/">
+                      <img src={Logo} alt="" />
+                    </Link>
+                  </div>
+                </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
-                
-                  
+
                 <Nav className="me-auto  w-100  justify-content-end">
-                  <Link to="/cart" className="nav-link">
+                  {/* <Link to="/cart" className="nav-link">
                     Cart
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
-                  </Link>
-                  {userInfo && (<Link to="/chat" className="nav-link">
-                    Chat
-                  
-                  </Link>)}
+                  </Link> */}
+                  {userInfo && (
+                    <Link to="/chat" className="nav-link">
+                      Chat
+                    </Link>
+                  )}
                   <Link to="/doctors" className="nav-link">
                     Docotor
-                  
                   </Link>
                   {userInfo ? (
-                    
-                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                    <NavDropdown title={userInfo.email} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                        <NavDropdown.Item>Payment History</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -156,7 +154,7 @@ function App() {
                         <NavDropdown.Item>Doctors</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                        <NavDropdown.Item>Payments</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
@@ -199,7 +197,7 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-              
+
               <Route
                 path="/chat"
                 element={
@@ -251,7 +249,7 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/shipping"
+                path="/address"
                 element={<ShippingAddressScreen />}
               ></Route>
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
@@ -310,7 +308,7 @@ function App() {
           </Container>
         </main>
         <footer>
-        <Footer />
+          <Footer />
           {/* <div className="text-center">All rights reserved</div> */}
         </footer>
       </div>

@@ -60,7 +60,7 @@ export default function DoctorEditScreen() {
   const [image, setImage] = useState('');
   const [images, setImages] = useState([]);
   const [category, setCategory] = useState('');
-  const [countInStock, setCountInStock] = useState('');
+  const [availabilityStatus, setCountInStock] = useState('');
   const [university, setUniversity] = useState('');
   const [description, setDescription] = useState('');
 
@@ -75,7 +75,7 @@ export default function DoctorEditScreen() {
         setImage(data.image);
         setImages(data.images);
         setCategory(data.category);
-        setCountInStock(data.countInStock);
+        setCountInStock(data.availabilityStatus);
         setUniversity(data.university);
         setDescription(data.description);
         dispatch({ type: 'FETCH_SUCCESS' });
@@ -104,7 +104,7 @@ export default function DoctorEditScreen() {
           images,
           category,
           university,
-          countInStock,
+          availabilityStatus,
           description,
         },
         {
@@ -243,13 +243,21 @@ export default function DoctorEditScreen() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="countInStock">
-            <Form.Label>Count In Stock</Form.Label>
+          <Form.Group className="mb-3" controlId="availabilityStatus">
+            <Form.Label>Availability Status</Form.Label>
             <Form.Control
-              value={countInStock}
+              value={availabilityStatus}
               onChange={(e) => setCountInStock(e.target.value)}
               required
             />
+            <Form.Check
+            className="mb-3"
+            type="checkbox"
+            id="availabilityStatus"
+            label="Availability"
+            checked={availabilityStatus}
+            onChange={(e) => setCountInStock(e.target.checked)}
+          />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
             <Form.Label>Description</Form.Label>

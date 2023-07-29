@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Store } from '../Store';
@@ -16,10 +17,16 @@ export default function PaymentMethodScreen() {
   const [paymentMethodName, setPaymentMethod] = useState(
     paymentMethod || 'PayPal'
   );
+  // ===================
+  const [showInput, setShowInput] = useState(false);
+  
+    const handleRadioChange = (event) => {
+      setShowInput(event.target.value === 'showInput');
+    };
 
   useEffect(() => {
     if (!shippingAddress.address) {
-      navigate('/shipping');
+      navigate('/address');
     }
   }, [shippingAddress, navigate]);
   const submitHandler = (e) => {
@@ -50,12 +57,23 @@ export default function PaymentMethodScreen() {
           <div className="mb-3">
             <Form.Check
               type="radio"
-              id="Stripe"
+              id="Anonymous"
               label="Anonymous Transaction"
-              value="Stripe"
-              checked={paymentMethodName === 'Stripe'}
+              value="Anonymous"
+              checked={paymentMethodName === 'Anonymous'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
+           
+      
+
+     
+        <Form.Control
+          type="text"
+          placeholder="Enter text here..."
+          onChange={(e) => setPaymentMethod(e.target.value)}
+          // Additional FormControl props can be added here if needed
+        />
+      
           </div>
           <div className="mb-3">
             <Button type="submit">Continue</Button>

@@ -32,13 +32,13 @@ function reducer(state, action) {
     case 'PAY_RESET':
       return { ...state, loadingPay: false, successPay: false };
 
-    case 'DELIVER_REQUEST':
+    case 'CONFIRM_REQUEST':
       return { ...state, loadingDeliver: true };
-    case 'DELIVER_SUCCESS':
+    case 'CONFIRM_SUCCESS':
       return { ...state, loadingDeliver: false, successDeliver: true };
-    case 'DELIVER_FAIL':
+    case 'CONFIRM_FAIL':
       return { ...state, loadingDeliver: false };
-    case 'DELIVER_RESET':
+    case 'CONFIRM_RESET':
       return {
         ...state,
         loadingDeliver: false,
@@ -141,7 +141,7 @@ export default function OrderScreen() {
         dispatch({ type: 'PAY_RESET' });
       }
       if (successDeliver) {
-        dispatch({ type: 'DELIVER_RESET' });
+        dispatch({ type: 'CONFIRM_RESET' });
       }
     } else {
       const loadPaypalScript = async () => {
@@ -171,7 +171,7 @@ export default function OrderScreen() {
 
   async function deliverOrderHandler() {
     try {
-      dispatch({ type: 'DELIVER_REQUEST' });
+      dispatch({ type: 'CONFIRM_REQUEST' });
       const { data } = await axios.put(
         `/api/orders/${order._id}/deliver`,
         {},
@@ -179,13 +179,31 @@ export default function OrderScreen() {
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
-      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
-      toast.success('Order is delivered');
+      dispatch({ type: 'CONFIRM_SUCCESS', payload: data });
+      toast.success('Booking is Confirmed');
     } catch (err) {
       toast.error(getError(err));
-      dispatch({ type: 'DELIVER_FAIL' });
+      dispatch({ type: 'CONFIRM_FAIL' });
     }
   }
+  async function anonymousHandler() {
+    try {
+      dispatch({ type: 'PAY_REQUEST' });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          {},
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        dispatch({ type: 'PAY_SUCCESS', payload: data });
+        toast.success('Order is paid');
+      } catch (err) {
+        dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+        toast.error(getError(err));
+      }
+    }
+  
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -236,15 +254,35 @@ export default function OrderScreen() {
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
-              <Card.Text>
-                <strong>Method:</strong> {order.paymentMethod}
-              </Card.Text>
-              {order.isPaid ? (
+              {order.paymentMethod === 'PayPal' ? (
+                <Card.Text>
+                  <strong>Method:</strong> {order.paymentMethod}
+                </Card.Text>
+              ) : (
+                <Card.Text>
+                  <strong>Method: </strong> Anonymous
+                  <br />
+                  <strong>Tansaction ID:</strong> {order.paymentMethod}
+                </Card.Text>
+              )}
+
+
+
+              {order.paymentMethod === 'PayPal' ? (
+              order.isPaid ? (
                 <MessageBox variant="success">
                   Paid at {order.paidAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Paid</MessageBox>
+              )):(
+                order.isDelivered ? (
+                  <MessageBox variant="success">
+                  Paid at {order.paidAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="danger">Not Confirmed</MessageBox>
+                )
               )}
             </Card.Body>
           </Card>
@@ -309,7 +347,7 @@ export default function OrderScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && (
+                {!order.isPaid && order.paymentMethod === 'PayPal' && (
                   <ListGroup.Item>
                     {isPending ? (
                       <LoadingBox />
@@ -325,11 +363,21 @@ export default function OrderScreen() {
                     {loadingPay && <LoadingBox></LoadingBox>}
                   </ListGroup.Item>
                 )}
-                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                {/* ======= */}
+                {userInfo.isAdmin && !order.isDelivered&& order.paymentMethod === 'PayPal' ? (
                   <ListGroup.Item>
                     {loadingDeliver && <LoadingBox></LoadingBox>}
                     <div className="d-grid">
                       <Button type="button" onClick={deliverOrderHandler}>
+                        Confirm Booinkg
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                ):(
+                  <ListGroup.Item>
+                    {loadingDeliver && <LoadingBox></LoadingBox>}
+                    <div className="d-grid">
+                      <Button type="button" onClick={deliverOrderHandler && anonymousHandler}>
                         Confirm Booinkg
                       </Button>
                     </div>
