@@ -15,6 +15,7 @@ export const generateToken = (user) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isDoctor: user.isDoctor,
     },
     process.env.JWT_SECRET,
     {
@@ -45,6 +46,13 @@ export const isAdmin = (req, res, next) => {
     next();
   } else {
     res.status(401).send({ message: 'Invalid Admin Token' });
+  }
+};
+export const isDoctor = (req, res, next) => {
+  if (req.user && req.user.isDoctor) {
+    next();
+  } else {
+    res.status(401).send({ message: 'Invalid Doctor Token' });
   }
 };
 

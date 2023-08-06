@@ -213,9 +213,9 @@ export default function OrderScreen() {
   ) : (
     <div>
       <Helmet>
-        <title>Appointment {orderId}</title>
+        <title>Appointment</title>
       </Helmet>
-      <h1 className="my-3">Appointment {orderId}</h1>
+       <h1 className="my-3">Appointment </h1>  {/*{orderId} */}
       <Row>
         <Col md={8}>
           <Card className="mb-3">
@@ -276,7 +276,7 @@ export default function OrderScreen() {
                 )
               ) : order.isDelivered ? (
                 <MessageBox variant="success">
-                  Paid at {order.deliveredAt}
+                  Paid at {formattedDeliveredAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Paid</MessageBox>
@@ -314,6 +314,7 @@ export default function OrderScreen() {
               <Card.Title>Appointment Summary</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
+                
                   <Row>
                     <Col>Fee</Col>
                     <Col>{order.itemsPrice.toFixed(2)} TK</Col>

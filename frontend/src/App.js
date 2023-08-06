@@ -28,6 +28,7 @@ import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
+import PrescriptionsScreen from './screens/PrescriptionsScreen';
 import AdminRoute from './components/AdminRoute';
 
 import ChatScreen from './screens/Chat/ChatScreen';
@@ -115,6 +116,11 @@ function App() {
                       </Badge>
                     )}
                   </Link> */}
+                  {/* {userInfo && userInfo.isDoctor && (
+                    <Link to="/chat" className="nav-link">
+                      Chat
+                    </Link>
+                  )} */}
                   {userInfo && (
                     <Link to="/chat" className="nav-link">
                       Chat
@@ -129,7 +135,7 @@ function App() {
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Payment History</NavDropdown.Item>
+                        <NavDropdown.Item>Appointment History</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -153,11 +159,21 @@ function App() {
                       <LinkContainer to="/admin/doctors">
                         <NavDropdown.Item>Doctors</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to="/admin/prescriptions">
+                        <NavDropdown.Item>Prescriptions</NavDropdown.Item>
+                      </LinkContainer>
                       <LinkContainer to="/admin/orders">
-                        <NavDropdown.Item>Payments</NavDropdown.Item>
+                        <NavDropdown.Item>Appointments</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+                  {userInfo && userInfo.isDoctor && (
+                    <NavDropdown title="Doctor" id="admin-nav-dropdown">
+                      <LinkContainer to="/doctor/prescriptions">
+                        <NavDropdown.Item>Prescriptions</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -300,6 +316,23 @@ function App() {
                   <AdminRoute>
                     <UserEditScreen />
                   </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/prescriptions"
+                element={
+                  <AdminRoute>
+                    <PrescriptionsScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/doctor/prescriptions"
+                element={
+                  userInfo &&
+                  (userInfo.isAdmin || userInfo.isDoctor) && (
+                    <PrescriptionsScreen />
+                  )
                 }
               ></Route>
               <Route path="/Doctors" element={<HomeScreen />} />

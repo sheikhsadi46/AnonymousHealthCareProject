@@ -3,7 +3,14 @@ import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
-import { isAuth, isAdmin, generateToken, baseUrl, mailgun } from '../utils.js';
+import {
+  isAuth,
+  isAdmin,
+  generateToken,
+  baseUrl,
+  mailgun,
+  isDoctor,
+} from '../utils.js';
 
 const userRouter = express.Router();
 
@@ -11,6 +18,7 @@ userRouter.get(
   '/',
   isAuth,
   isAdmin,
+  isDoctor,
   expressAsyncHandler(async (req, res) => {
     const users = await User.find({});
     res.send(users);
@@ -21,6 +29,7 @@ userRouter.get(
   '/:id',
   isAuth,
   isAdmin,
+  isDoctor,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
@@ -49,6 +58,7 @@ userRouter.put(
         name: updatedUser.name,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
+        isDoctor: updatedUser.isDoctor,
         token: generateToken(updatedUser),
       });
     } else {
@@ -124,12 +134,14 @@ userRouter.put(
   '/:id',
   isAuth,
   isAdmin,
+  isDoctor,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.isAdmin = Boolean(req.body.isAdmin);
+      user.isDoctor = Boolean(req.body.isDoctor);
       const updatedUser = await user.save();
       res.send({ message: 'User Updated', user: updatedUser });
     } else {
@@ -142,6 +154,7 @@ userRouter.delete(
   '/:id',
   isAuth,
   isAdmin,
+  isDoctor,
   expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
     if (user) {
@@ -167,6 +180,7 @@ userRouter.post(
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
+          isDoctor: user.isDoctor,
           token: generateToken(user),
         });
         return;
@@ -176,7 +190,8 @@ userRouter.post(
   })
 );
 const generateRandomUser = () => {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const chars =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let randomUser = '';
   for (let i = 0; i < 6; i++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
@@ -200,6 +215,7 @@ userRouter.post(
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isDoctor: user.isDoctor,
       token: generateToken(user),
     });
   })
