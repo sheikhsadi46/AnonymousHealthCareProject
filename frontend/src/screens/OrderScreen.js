@@ -77,6 +77,25 @@ export default function OrderScreen() {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
+  const deliveredAtDate = new Date(order.deliveredAt);
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZoneName: 'short',
+  };
+  const formattedDeliveredAt = deliveredAtDate.toLocaleString(
+    undefined,
+    options
+  );
+
+  const paidAtDate = new Date(order.paidAt);
+
+  const formattedpaidAt = paidAtDate.toLocaleString(undefined, options);
+
   function createOrder(data, actions) {
     return actions.order
       .create({
@@ -225,7 +244,7 @@ export default function OrderScreen() {
               <Card.Title>Confirmation</Card.Title>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Confirmed at {order.deliveredAt}
+                  Confirmed at {formattedDeliveredAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Confirmed</MessageBox>
@@ -250,7 +269,7 @@ export default function OrderScreen() {
               {order.paymentMethod === 'PayPal' ? (
                 order.isPaid ? (
                   <MessageBox variant="success">
-                    Paid at {order.paidAt}
+                    Paid at {formattedpaidAt}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="danger">Not Paid</MessageBox>

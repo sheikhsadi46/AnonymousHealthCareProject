@@ -111,7 +111,23 @@ orderRouter.put(
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();
+
       await order.save();
+      const deliveredAtDate = new Date(order.deliveredAt);
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        timeZoneName: 'short',
+      };
+      const formattedDeliveredAt = deliveredAtDate.toLocaleString(
+        undefined,
+        options
+      );
+
       res.send({ message: 'Order Delivered' });
     } else {
       res.status(404).send({ message: 'Order Not Found' });

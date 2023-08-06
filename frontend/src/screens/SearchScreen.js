@@ -36,15 +36,15 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: '$1 to $50',
+    name: '1 TK to 50 TK',
     value: '1-50',
   },
   {
-    name: '$51 to $200',
+    name: '51 TK to 200 TK',
     value: '51-200',
   },
   {
-    name: '$201 to $1000',
+    name: '201 TK to 1000 TK',
     value: '201-1000',
   },
 ];
@@ -160,7 +160,7 @@ export default function SearchScreen() {
             </ul>
           </div>
           <div>
-            <h3>Price</h3>
+            <h3>Fee</h3>
             <ul>
               <li>
                 <Link
@@ -234,7 +234,7 @@ export default function SearchScreen() {
                     ) : null}
                   </div>
                 </Col>
-                <Col className="text-end">
+                {/* <Col className="text-end">
                   Sort by{' '}
                   <select
                     value={order}
@@ -247,11 +247,9 @@ export default function SearchScreen() {
                     <option value="highest">Price: High to Low</option>
                     <option value="toprated">Avg. Customer Reviews</option>
                   </select>
-                </Col>
+                </Col> */}
               </Row>
-              {doctors.length === 0 && (
-                <MessageBox>No Doctor Found</MessageBox>
-              )}
+              {doctors.length === 0 && <MessageBox>No Doctor Found</MessageBox>}
 
               <Row>
                 {doctors.map((doctor) => (

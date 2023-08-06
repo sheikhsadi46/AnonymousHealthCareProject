@@ -156,9 +156,9 @@ export default function DoctorEditScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Edit Doctor ${doctorId}</title>
+        <title>Doctor ${doctorId}</title>
       </Helmet>
-      <h1>Edit Doctor {doctorId}</h1>
+      <h1>Doctor {doctorId}</h1>
 
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -251,13 +251,13 @@ export default function DoctorEditScreen() {
               required
             />
             <Form.Check
-            className="mb-3"
-            type="checkbox"
-            id="availabilityStatus"
-            label="Availability"
-            checked={availabilityStatus}
-            onChange={(e) => setCountInStock(e.target.checked)}
-          />
+              className="mb-3"
+              type="checkbox"
+              id="availabilityStatus"
+              label="Availability"
+              checked={availabilityStatus}
+              onChange={(e) => setCountInStock(e.target.checked)}
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
             <Form.Label>Description</Form.Label>

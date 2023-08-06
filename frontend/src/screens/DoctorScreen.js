@@ -87,7 +87,7 @@ function DoctorScreen() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (!comment || !rating) {
+    if (!rating) {
       toast.error('Please enter comment and rating');
       return;
     }
