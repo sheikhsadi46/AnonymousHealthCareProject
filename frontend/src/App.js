@@ -121,7 +121,7 @@ function App() {
                     </Link>
                   )}
                   <Link to="/doctors" className="nav-link">
-                    Docotor
+                    Doctor
                   </Link>
                   {userInfo ? (
                     <NavDropdown title={userInfo.email} id="basic-nav-dropdown">

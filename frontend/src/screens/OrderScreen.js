@@ -222,7 +222,7 @@ export default function OrderScreen() {
           </Card>
           <Card className="mb-3">
             <Card.Body>
-            <Card.Title>Confirmation</Card.Title>
+              <Card.Title>Confirmation</Card.Title>
               {order.isDelivered ? (
                 <MessageBox variant="success">
                   Confirmed at {order.deliveredAt}
@@ -231,8 +231,7 @@ export default function OrderScreen() {
                 <MessageBox variant="danger">Not Confirmed</MessageBox>
               )}
             </Card.Body>
-              
-              </Card>
+          </Card>
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
@@ -248,23 +247,20 @@ export default function OrderScreen() {
                 </Card.Text>
               )}
 
-
-
               {order.paymentMethod === 'PayPal' ? (
-              order.isPaid ? (
-                <MessageBox variant="success">
-                  Paid at {order.paidAt}
-                </MessageBox>
-              ) : (
-                <MessageBox variant="danger">Not Paid</MessageBox>
-              )):(
-                order.isDelivered ? (
+                order.isPaid ? (
                   <MessageBox variant="success">
-                  Paid at {order.deliveredAt}
+                    Paid at {order.paidAt}
                   </MessageBox>
                 ) : (
                   <MessageBox variant="danger">Not Paid</MessageBox>
                 )
+              ) : order.isDelivered ? (
+                <MessageBox variant="success">
+                  Paid at {order.deliveredAt}
+                </MessageBox>
+              ) : (
+                <MessageBox variant="danger">Not Paid</MessageBox>
               )}
             </Card.Body>
           </Card>
@@ -283,11 +279,8 @@ export default function OrderScreen() {
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
                         <Link to={`/doctor/${item.slug}`}>{item.name}</Link>
-                        
                       </Col>
-                      <Col md={3}>
-                      
-                      </Col>
+                      <Col md={3}></Col>
                       <Col md={3}>{item.price} TK</Col>
                     </Row>
                   </ListGroup.Item>
@@ -329,22 +322,24 @@ export default function OrderScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {!order.isPaid && order.paymentMethod === 'PayPal' && (
-                  <ListGroup.Item>
-                    {isPending ? (
-                      <LoadingBox />
-                    ) : (
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
-                      </div>
-                    )}
-                    {loadingPay && <LoadingBox></LoadingBox>}
-                  </ListGroup.Item>
-                )}
+                {!userInfo.isAdmin &&
+                  !order.isPaid &&
+                  order.paymentMethod === 'PayPal' && (
+                    <ListGroup.Item>
+                      {isPending ? (
+                        <LoadingBox />
+                      ) : (
+                        <div>
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                          ></PayPalButtons>
+                        </div>
+                      )}
+                      {loadingPay && <LoadingBox></LoadingBox>}
+                    </ListGroup.Item>
+                  )}
                 {/* ==== */}
                 {userInfo.isAdmin && !order.isDelivered && (
                   <ListGroup.Item>
