@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 
-export default function ShippingAddressScreen() {
+export default function AddressScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
@@ -24,7 +24,7 @@ export default function ShippingAddressScreen() {
   );
   useEffect(() => {
     if (!userInfo) {
-      navigate('/signin?redirect=/shipping');
+      navigate('/signin?redirect=/address');
     }
   }, [userInfo, navigate]);
   const [country, setCountry] = useState(shippingAddress.country || ' ');
@@ -95,7 +95,7 @@ export default function ShippingAddressScreen() {
           <Form.Group className="mb-3" controlId="postalCode">
             <Form.Label>Postal Code</Form.Label>
             <Form.Control
-            type="number"
+              type="number"
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
             />

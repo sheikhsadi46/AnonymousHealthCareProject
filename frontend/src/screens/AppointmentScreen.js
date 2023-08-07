@@ -48,7 +48,7 @@ function reducer(state, action) {
       return state;
   }
 }
-export default function OrderScreen() {
+export default function AppointmentScreen() {
   const { state } = useContext(Store);
   const { userInfo } = state;
 
@@ -122,7 +122,7 @@ export default function OrderScreen() {
           }
         );
         dispatch({ type: 'PAY_SUCCESS', payload: data });
-        toast.success('Order is paid');
+        toast.success('appointment is paid');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
         toast.error(getError(err));
@@ -215,7 +215,7 @@ export default function OrderScreen() {
       <Helmet>
         <title>Appointment</title>
       </Helmet>
-       <h1 className="my-3">Appointment </h1>  {/*{orderId} */}
+      <h1 className="my-3">Appointment </h1> {/*{orderId} */}
       <Row>
         <Col md={8}>
           <Card className="mb-3">
@@ -314,7 +314,6 @@ export default function OrderScreen() {
               <Card.Title>Appointment Summary</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                
                   <Row>
                     <Col>Fee</Col>
                     <Col>{order.itemsPrice.toFixed(2)} TK</Col>
@@ -343,6 +342,7 @@ export default function OrderScreen() {
                   </Row>
                 </ListGroup.Item>
                 {!userInfo.isAdmin &&
+                  !userInfo.isDoctor &&
                   !order.isPaid &&
                   order.paymentMethod === 'PayPal' && (
                     <ListGroup.Item>

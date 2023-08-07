@@ -19,10 +19,10 @@ export default function PaymentMethodScreen() {
   );
   // ===================
   const [showInput, setShowInput] = useState(false);
-  
-    const handleRadioChange = (event) => {
-      setShowInput(event.target.value === 'showInput');
-    };
+
+  // const handleRadioChange = (event) => {
+  //   setShowInput(event.target.value === 'showInput');
+  // };
 
   useEffect(() => {
     if (!shippingAddress.address) {
@@ -33,7 +33,7 @@ export default function PaymentMethodScreen() {
     e.preventDefault();
     ctxDispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethodName });
     localStorage.setItem('paymentMethod', paymentMethodName);
-    navigate('/placeorder');
+    navigate('/placeappointment');
   };
   return (
     <div>
@@ -63,17 +63,13 @@ export default function PaymentMethodScreen() {
               checked={paymentMethodName === 'Anonymous'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-           
-      
 
-     
-        <Form.Control
-          type="text"
-          placeholder="Enter text here..."
-          onChange={(e) => setPaymentMethod(e.target.value)}
-          // Additional FormControl props can be added here if needed
-        />
-      
+            <Form.Control
+              type="text"
+              placeholder="Enter text here..."
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              // Additional FormControl props can be added here if needed
+            />
           </div>
           <div className="mb-3">
             <Button type="submit">Continue</Button>

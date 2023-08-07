@@ -37,7 +37,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export default function OrderListScreen() {
+export default function AppointmentListScreen() {
   const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -76,7 +76,7 @@ export default function OrderListScreen() {
         await axios.delete(`/api/orders/${order._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('order deleted successfully');
+        toast.success('appointment deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (err) {
         toast.error(getError(error));
@@ -133,7 +133,7 @@ export default function OrderListScreen() {
                       type="button"
                       variant="light"
                       onClick={() => {
-                        navigate(`/order/${order._id}`);
+                        navigate(`/appointment/${order._id}`);
                       }}
                     >
                       Details

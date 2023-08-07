@@ -21,7 +21,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function OrderHistoryScreen() {
+export default function AppointmentHistoryScreen() {
   const { state } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export default function OrderHistoryScreen() {
                     type="button"
                     variant="light"
                     onClick={() => {
-                      navigate(`/order/${order._id}`);
+                      navigate(`/appointment/${order._id}`);
                     }}
                   >
                     Details

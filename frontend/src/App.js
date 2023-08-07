@@ -14,12 +14,12 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
-import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import AddressScreen from './screens/AddressScreen';
 import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import OrderScreen from './screens/OrderScreen';
-import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import PlaceAppointmentScreen from './screens/PlaceAppointmentScreen';
+import AppointmentScreen from './screens/AppointmentScreen';
+import AppointmentHistoryScreen from './screens/AppointmentHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import Button from 'react-bootstrap/Button';
 import { getError } from './utils';
@@ -35,7 +35,7 @@ import ChatScreen from './screens/Chat/ChatScreen';
 
 import DoctorListScreen from './screens/DoctorListScreen';
 import DoctorEditScreen from './screens/DoctorEditScreen';
-import OrderListScreen from './screens/OrderListScreen';
+import AppointmentListScreen from './screens/AppointmentListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import MapScreen from './screens/MapScreen';
@@ -134,7 +134,7 @@ function App() {
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/orderhistory">
+                      <LinkContainer to="/appointmenthistory">
                         <NavDropdown.Item>Appointment History</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
@@ -162,7 +162,7 @@ function App() {
                       <LinkContainer to="/admin/prescriptions">
                         <NavDropdown.Item>Prescriptions</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/orders">
+                      <LinkContainer to="/admin/appointments">
                         <NavDropdown.Item>Appointments</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
@@ -247,27 +247,27 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route
-                path="/order/:id"
+                path="/placeappointment"
+                element={<PlaceAppointmentScreen />}
+              />
+              <Route
+                path="/appointment/:id"
                 element={
                   <ProtectedRoute>
-                    <OrderScreen />
+                    <AppointmentScreen />
                   </ProtectedRoute>
                 }
               ></Route>
               <Route
-                path="/orderhistory"
+                path="/appointmenthistory"
                 element={
                   <ProtectedRoute>
-                    <OrderHistoryScreen />
+                    <AppointmentHistoryScreen />
                   </ProtectedRoute>
                 }
               ></Route>
-              <Route
-                path="/address"
-                element={<ShippingAddressScreen />}
-              ></Route>
+              <Route path="/address" element={<AddressScreen />}></Route>
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               {/* Admin Routes */}
               <Route
@@ -279,10 +279,10 @@ function App() {
                 }
               ></Route>
               <Route
-                path="/admin/orders"
+                path="/admin/appointments"
                 element={
                   <AdminRoute>
-                    <OrderListScreen />
+                    <AppointmentListScreen />
                   </AdminRoute>
                 }
               ></Route>

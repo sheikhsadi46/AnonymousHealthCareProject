@@ -49,7 +49,7 @@ export const isAdmin = (req, res, next) => {
   }
 };
 export const isDoctor = (req, res, next) => {
-  if (req.user && req.user.isDoctor) {
+  if (req.user) {
     next();
   } else {
     res.status(401).send({ message: 'Invalid Doctor Token' });
