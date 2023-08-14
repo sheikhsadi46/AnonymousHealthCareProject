@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
 const reducer = (state, action) => {
@@ -67,6 +68,13 @@ export default function ProfileScreen() {
         <title>User Profile</title>
       </Helmet>
       <h1 className="my-3">User Profile</h1>
+
+      <Card className="mb-3">
+        <Card.Body>
+          <Card.Title>UserID</Card.Title>
+          <h3 className="my-3">ID: {email} </h3>
+        </Card.Body>
+      </Card>
       <form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>Name</Form.Label>
@@ -76,7 +84,7 @@ export default function ProfileScreen() {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="name">
+        {/* <Form.Group className="mb-3" controlId="name">
           <Form.Label>UserID</Form.Label>
           <Form.Control
             type="text"
@@ -84,7 +92,7 @@ export default function ProfileScreen() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </Form.Group>
+        </Form.Group> */}
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
