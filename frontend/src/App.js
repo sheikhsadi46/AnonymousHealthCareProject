@@ -32,6 +32,7 @@ import PrescriptionsScreen from './screens/PrescriptionsScreen';
 import AdminRoute from './components/AdminRoute';
 
 import ChatScreen from './screens/Chat/ChatScreen';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import DoctorListScreen from './screens/DoctorListScreen';
 import DoctorEditScreen from './screens/DoctorEditScreen';
@@ -122,7 +123,7 @@ function App() {
                     </Link>
                   )} */}
                   {userInfo && (
-                    <Link to="/chat" className="nav-link">
+                    <Link to="/chats" className="nav-link">
                       Chat
                     </Link>
                   )}
@@ -215,11 +216,13 @@ function App() {
               <Route path="/signup" element={<SignupScreen />} />
 
               <Route
-                path="/chat"
+                path="/chats"
                 element={
+                  <ChakraProvider>
                   <ProtectedRoute>
                     <ChatScreen />
                   </ProtectedRoute>
+                  </ChakraProvider>
                 }
               />
               <Route

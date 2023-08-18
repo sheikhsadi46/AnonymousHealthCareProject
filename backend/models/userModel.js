@@ -8,6 +8,13 @@ const userSchema = new mongoose.Schema(
     resetToken: { type: String },
     isAdmin: { type: Boolean, default: false, required: true },
     isDoctor: { type: Boolean, default: false, required: true },
+
+    pic: {
+      type: "String",
+      default:
+        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
+    
   },
   {
     timestamps: true,

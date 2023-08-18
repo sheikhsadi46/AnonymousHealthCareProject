@@ -1,4 +1,4 @@
-.Chat {
+/* .Chat {
     position: relative;
     display: grid;
     grid-template-columns: 22% auto;
@@ -73,4 +73,11 @@
      .follower.conversation>div>.name{
       display: none;
      }
+  } */
+  .layout-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 91.5vh;
+    padding: 10px;
   }

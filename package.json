@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/sheikhsadi46/AnonymousHealthCareProject/issues"
   },
-  "homepage": "https://github.com/sheikhsadi46/AnonymousHealthCareProject#readme"
+  "homepage": "https://github.com/sheikhsadi46/AnonymousHealthCareProject#readme",
+  "dependencies": {
+    "socket.io": "^4.7.2"
+  }
 }

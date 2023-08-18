@@ -1,0 +1,21 @@
+.box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px;
+  background-color: white;
+  width: 100%;
+  border-radius: 8px;
+  border-width: 1px;
+}
+
+.box-header {
+  padding-bottom: 3px;
+  padding-left: 3px;
+  font-size: 28px;
+  font-family: 'Work Sans', sans-serif;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
