@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from './Store';
-// import { ChakraProvider } from '@chakra-ui/react';
+
 import ChatProvider from './Context/ChatProvider';
 
 const root = createRoot(document.getElementById('root'));
@@ -16,13 +16,13 @@ root.render(
   <React.StrictMode>
     <ChatProvider>
       <StoreProvider>
-        {/* <ChakraProvider> */}
+        
         <HelmetProvider>
           <PayPalScriptProvider deferLoading={true}>
             <App />
           </PayPalScriptProvider>
         </HelmetProvider>
-        {/* </ChakraProvider> */}
+       
       </StoreProvider>
     </ChatProvider>
   </React.StrictMode>

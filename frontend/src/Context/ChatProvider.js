@@ -31,9 +31,4 @@ export const ChatState = () => {
 
 export default ChatProvider;
 
-// selectedChat,
-//         setSelectedChat,
-//         notification,
-//         setNotification,
-//         chats,
-//         setChats,
+

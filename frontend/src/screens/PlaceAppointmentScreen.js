@@ -157,12 +157,6 @@ export default function PlaceAppointmentScreen() {
                     <Col>{cart.itemsPrice.toFixed(2)} TK</Col>
                   </Row>
                 </ListGroup.Item>
-                {/* <ListGroup.Item>
-                  <Row>
-                    <Col>Shipping</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item> */}
                 <ListGroup.Item>
                   <Row>
                     <Col>Tax</Col>

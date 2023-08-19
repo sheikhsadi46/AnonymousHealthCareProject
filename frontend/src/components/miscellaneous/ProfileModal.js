@@ -53,7 +53,7 @@ const ProfileModal = ({ user, children }) => {
               fontFamily="Work sans"
             >
               {user.isDoctor ? 'Doctor' : 'User'} <br />
-              Email: {user.email}
+              ID: {user.email}
             </Text>
           </ModalBody>
           <ModalFooter>

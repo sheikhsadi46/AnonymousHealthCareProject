@@ -9,7 +9,7 @@ const prescriptionSchema = new mongoose.Schema(
     instructions: { type: String, required: false },
     doctor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', // Assuming your user model is named 'User', update this if it's different
+      ref: 'User',
       required: true,
     },
   },

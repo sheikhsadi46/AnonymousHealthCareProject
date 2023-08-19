@@ -208,8 +208,7 @@ userRouter.post(
     const randomUser = generateRandomUser();
     const newUser = new User({
       name: req.body.name,
-      email: `${randomUser}`, // Generate a shorter random email
-      // email: req.body.email,
+      email: `${randomUser}`, 
       password: bcrypt.hashSync(req.body.password),
     });
     const user = await newUser.save();
@@ -224,58 +223,6 @@ userRouter.post(
   })
 );
 
-// const allUsers = expressAsyncHandler(async (req, res) => {
-//   const keyword = req.query.search
-//     ? {
-//         $or: [
-//           { name: { $regex: req.query.search, $options: 'i' } },
-//           { email: { $regex: req.query.search, $options: 'i' } },
-//         ],
-//       }
-//     : {};
 
-//   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-//   res.send(users);
-// });
-// const allUsers = expressAsyncHandler(async (req, res) => {
-//   console.log('Received search query:', req.query.search);
-//   const keyword = req.query.search
-//     ? {
-//         $or: [
-//           { name: { $regex: req.query.search, $options: 'i' } },
-//           { email: { $regex: req.query.search, $options: 'i' } },
-//         ],
-//         _id: { $ne: req.user._id }, // Exclude the logged-in user
-//       }
-//     : { _id: { $ne: req.user._id } };
-//     console.log('Keyword object:', keyword);
-
-//   const users = await User.find(keyword);
-//   console.log('Users fetched from database:', users);
-//   res.send(users);
-// });
-// userRouter.get('/', isAuth, allUsers);
-// userRouter.get(
-//   '/search',
-//   isAuth,
-//   expressAsyncHandler(async (req, res) => {
-//     console.log('Received search query:');
-//     const { search } = req.query;
-//     console.log('Received search query:', req.query.search);
-//     const keyword = search
-//       ? {
-//           $or: [
-//             { name: { $regex: search, $options: 'i' } },
-//             { email: { $regex: search, $options: 'i' } },
-//           ],
-//           _id: { $ne: req.user._id },
-//         }
-//       : { _id: { $ne: req.user._id } };
-
-//     const users = await User.find(keyword);
-//     console.log('Users fetched from database:', users);
-//     res.send(users);
-//   })
-// );
 
 export default userRouter;

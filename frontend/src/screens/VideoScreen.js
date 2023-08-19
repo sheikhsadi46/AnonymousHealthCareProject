@@ -99,21 +99,16 @@ function VideoScreen() {
   };
 
   const leaveCall = () => {
-    // 1. Set callEnded state to true
+
     setCallEnded(true);
 
-    // 2. Close the local stream
     stream.getTracks().forEach((track) => track.stop());
 
-    // 3. Close the peer connection
     if (connectionRef.current) {
       connectionRef.current.destroy();
     }
 
-    // 4. Emit an event to notify the other user(s) that the call has ended
     socket.emit('callEnded', { to: caller });
-
-    // 5. Reset relevant state variables
     setCallAccepted(false);
     setReceivingCall(false);
     setCaller('');

@@ -6,7 +6,7 @@ export const baseUrl = () =>
     ? process.env.BASE_URL
     : process.env.NODE_ENV !== 'production'
     ? 'http://localhost:3000'
-    : 'https://yourdomain.com';
+    : 'https://anonymoushealthcareproject.onrender.com/';
 
 export const generateToken = (user) => {
   return jwt.sign(
@@ -27,7 +27,7 @@ export const generateToken = (user) => {
 export const isAuth = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (authorization) {
-    const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
+    const token = authorization.slice(7, authorization.length); // Bearer
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
         res.status(401).send({ message: 'Invalid Token' });

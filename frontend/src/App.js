@@ -88,12 +88,7 @@ function App() {
           {/* <Header/> */}
           <Navbar bg="light" variant="light" expand="lg">
             <Container>
-              {/* <Button
-                variant="dark"
-                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
-              >
-                <i className="fas fa-bars"></i>
-              </Button> */}
+  
 
               <LinkContainer to="/">
                 <Navbar.Brand>
@@ -109,19 +104,7 @@ function App() {
                 <SearchBox />
 
                 <Nav className="me-auto  w-100  justify-content-end">
-                  {/* <Link to="/cart" className="nav-link">
-                    Cart
-                    {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
-                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                      </Badge>
-                    )}
-                  </Link> */}
-                  {/* {userInfo && userInfo.isDoctor && (
-                    <Link to="/chat" className="nav-link">
-                      Chat
-                    </Link>
-                  )} */}
+                
                   {userInfo && (
                     <>
                     <Link to="/chats" className="nav-link">
@@ -164,9 +147,7 @@ function App() {
                       <LinkContainer to="/admin/doctors">
                         <NavDropdown.Item>Doctors</NavDropdown.Item>
                       </LinkContainer>
-                      {/* <LinkContainer to="/admin/prescriptions">
-                        <NavDropdown.Item>Prescriptions</NavDropdown.Item>
-                      </LinkContainer> */}
+                      
                       <LinkContainer to="/admin/appointments">
                         <NavDropdown.Item>Appointments</NavDropdown.Item>
                       </LinkContainer>
@@ -175,13 +156,7 @@ function App() {
                       </LinkContainer>
                     </NavDropdown>
                   )}
-                  {/* {userInfo && userInfo.isDoctor && (
-                    <NavDropdown title="Doctor" id="admin-nav-dropdown">
-                      <LinkContainer to="/doctor/prescriptions">
-                        <NavDropdown.Item>Prescriptions</NavDropdown.Item>
-                      </LinkContainer>
-                    </NavDropdown>
-                  )} */}
+                 
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -333,33 +308,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              {/* <Route
-                path="/admin/prescriptions"
-                element={
-                  <AdminRoute>
-                    <PrescriptionsScreen />
-                  </AdminRoute>
-                }
-              ></Route> */}
-               {/* <Route
-                path="/doctor/prescriptions"
-                element={
-                  userInfo &&
-                  (userInfo.isAdmin || userInfo.isDoctor) && (
-                    <PrescriptionsScreen />
-                  )
-                }
-              ></Route>  */}
-              {/* <Route
-                path="/doctor/prescriptionform"
-                element={
-                  userInfo &&
-                  (userInfo.isAdmin || userInfo.isDoctor) && (
-                    <PrescriptionForm />
-                  )
-                }
-              ></Route>  */}
-              {/* <Route path="/doctor/prescriptionform" component={<PrescriptionForm />} /> */}
+ 
               
               <Route path="/Doctors" element={<HomeScreen />} />
               <Route path="/" element={<Home />} />
@@ -368,7 +317,7 @@ function App() {
         </main>
         <footer>
           <Footer />
-          {/* <div className="text-center">All rights reserved</div> */}
+         
         </footer>
       </div>
     </BrowserRouter>
