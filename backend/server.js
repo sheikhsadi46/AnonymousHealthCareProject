@@ -71,6 +71,7 @@ const io = new Server(server, {
   },
 });
 io.on('connection', (socket) => {
+  socket.emit('me', socket.id);
   console.log('Connected to socket.io');
   socket.on('setup', (userData) => {
     socket.join(userData._id);
@@ -80,18 +81,32 @@ io.on('connection', (socket) => {
     socket.join(room);
     console.log('User Joined Room: ' + room);
   });
-  socket.on("new message", (newMessageRecieved) => {
+  socket.on('disconnect', () => {
+    socket.broadcast.emit('callEnded');
+  });
+  socket.on('callUser', (data) => {
+    io.to(data.userToCall).emit('callUser', {
+      signal: data.signalData,
+      from: data.from,
+      name: data.name,
+    });
+  });
+
+  socket.on('answerCall', (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+  });
+  socket.on('new message', (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;
 
-    if (!chat.users) return console.log("chat.users not defined");
+    if (!chat.users) return console.log('chat.users not defined');
 
     chat.users.forEach((user) => {
       if (user._id == newMessageRecieved.sender._id) return;
 
-      socket.in(user._id).emit("message recieved", newMessageRecieved);
+      socket.in(user._id).emit('message recieved', newMessageRecieved);
     });
-    socket.off("setup", () => {
-      console.log("USER DISCONNECTED");
+    socket.off('setup', () => {
+      console.log('USER DISCONNECTED');
       socket.leave(userData._id);
     });
   });

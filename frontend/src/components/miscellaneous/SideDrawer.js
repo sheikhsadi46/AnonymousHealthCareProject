@@ -130,7 +130,7 @@ const SideDrawer = () => {
         <Nav className="me-auto  w-100  justify-content-end">
           <Menu>
             <MenuButton p={1}>
-              <BellIcon fontSize="2xl" m={1} />
+              {/* <BellIcon fontSize="2xl" m={1} /> */}
             </MenuButton>
           </Menu>
           <Menu>

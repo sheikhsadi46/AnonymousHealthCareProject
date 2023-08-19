@@ -33,7 +33,7 @@ import AdminRoute from './components/AdminRoute';
 
 import ChatScreen from './screens/Chat/ChatScreen';
 import { ChakraProvider } from '@chakra-ui/react';
-
+import VideoScreen from './screens/VideoScreen';
 import DoctorListScreen from './screens/DoctorListScreen';
 import DoctorEditScreen from './screens/DoctorEditScreen';
 import AppointmentListScreen from './screens/AppointmentListScreen';
@@ -123,9 +123,13 @@ function App() {
                     </Link>
                   )} */}
                   {userInfo && (
+                    <>
                     <Link to="/chats" className="nav-link">
                       Chat
                     </Link>
+                    <Link to="/video" className="nav-link">
+                    Video Call
+                  </Link></>
                   )}
                   <Link to="/doctors" className="nav-link">
                     Doctor
@@ -214,7 +218,15 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
-
+              <Route
+                path="/video"
+                element={
+                  <ProtectedRoute>
+                    <VideoScreen />
+                  </ProtectedRoute>
+                  
+                }
+              />
               <Route
                 path="/chats"
                 element={
