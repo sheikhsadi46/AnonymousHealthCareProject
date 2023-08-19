@@ -19,8 +19,8 @@ import io from 'socket.io-client';
 import { Store } from '../Store';
 // import "./video.css";
 
-// const socket = io.connect('https://anonymoushealthcareproject.onrender.com/'); // -> after deployment
-const socket = io.connect('http://localhost:4000/');
+const socket = io.connect('https://anonymoushealthcareproject.onrender.com/'); // -> after deployment
+// const socket = io.connect('http://localhost:4000/');
 function VideoScreen() {
   const [me, setMe] = useState('');
   const [stream, setStream] = useState();
