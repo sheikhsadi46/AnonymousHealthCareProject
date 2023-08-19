@@ -68,7 +68,7 @@ export default function AppointmentHistoryScreen() {
               <th>DATE</th>
               <th>TOTAL</th>
               <th>PAID</th>
-              <th>DELIVERED</th>
+              <th>BOOKED</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
