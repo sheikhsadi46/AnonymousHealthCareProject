@@ -16,7 +16,7 @@ doctorRouter.post(
   isAdmin,
   expressAsyncHandler(async (req, res) => {
     const newDoctor = new Doctor({
-      name: 'sample doctor ' + Date.now(),
+      name: 'sample doctor ' +Date.now(),
       slug: 'sample-doctor-' + Date.now(),
       image: '/images/p1.jpg',
       price: 0,
