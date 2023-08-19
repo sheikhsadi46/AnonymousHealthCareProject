@@ -7,7 +7,7 @@
 //     </div>
 //   )
 // }
-import React, { useEffect,useContext, useRef, useState } from 'react';
+import React, { useEffect, useContext, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
@@ -17,7 +17,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
 import { Store } from '../Store';
-// import "./video.css";
+import './video.css';
 
 const socket = io.connect('https://anonymoushealthcareproject.onrender.com/'); // -> after deployment
 // const socket = io.connect('http://localhost:4000/');
@@ -34,8 +34,6 @@ function VideoScreen() {
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
-  const { state } = useContext(Store);
-  const { userInfo } = state;
 
   useEffect(() => {
     navigator.mediaDevices
@@ -78,6 +76,7 @@ function VideoScreen() {
       setCallAccepted(true);
       peer.signal(signal);
     });
+
     connectionRef.current = peer;
   };
 
@@ -94,20 +93,38 @@ function VideoScreen() {
     peer.on('stream', (stream) => {
       userVideo.current.srcObject = stream;
     });
+
     peer.signal(callerSignal);
     connectionRef.current = peer;
   };
 
   const leaveCall = () => {
+    // 1. Set callEnded state to true
     setCallEnded(true);
-    connectionRef.current.destroy();
+
+    // 2. Close the local stream
+    stream.getTracks().forEach((track) => track.stop());
+
+    // 3. Close the peer connection
+    if (connectionRef.current) {
+      connectionRef.current.destroy();
+    }
+
+    // 4. Emit an event to notify the other user(s) that the call has ended
+    socket.emit('callEnded', { to: caller });
+
+    // 5. Reset relevant state variables
+    setCallAccepted(false);
+    setReceivingCall(false);
+    setCaller('');
+    setCallerSignal(null);
   };
 
   return (
     <>
       <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
-      <div className="container">
-        <div className="video-container">
+      <div className="container1">
+        <div className="video-container1">
           <div className="video">
             {stream && (
               <video
@@ -130,7 +147,7 @@ function VideoScreen() {
             ) : null}
           </div>
         </div>
-        <div className="myId">
+        <div className="myId1">
           <TextField
             id="filled-basic"
             label="Name"
@@ -148,6 +165,7 @@ function VideoScreen() {
               Copy ID
             </Button>
           </CopyToClipboard>
+
           <TextField
             id="filled-basic"
             label="ID to call"
@@ -155,7 +173,7 @@ function VideoScreen() {
             value={idToCall}
             onChange={(e) => setIdToCall(e.target.value)}
           />
-          <div className="call-button">
+          <div className="call-button1">
             {callAccepted && !callEnded ? (
               <Button variant="contained" color="secondary" onClick={leaveCall}>
                 End Call
@@ -174,7 +192,7 @@ function VideoScreen() {
         </div>
         <div>
           {receivingCall && !callAccepted ? (
-            <div className="caller">
+            <div className="caller1">
               <h1>{name} is calling...</h1>
               <Button variant="contained" color="primary" onClick={answerCall}>
                 Answer

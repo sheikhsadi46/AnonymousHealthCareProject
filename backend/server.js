@@ -11,6 +11,7 @@ import uploadRouter from './routes/uploadRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import searchRoute from './routes/searchRoutes.js';
+import prescriptionRoute from './routes/prescriptionRoutes.js';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use('/api/orders', orderRouter);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/search', searchRoute);
+app.use('/api/prescription', prescriptionRoute);
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/frontend/build')));

@@ -28,9 +28,9 @@ import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
-import PrescriptionsScreen from './screens/PrescriptionsScreen';
+// import PrescriptionsScreen from './screens/PrescriptionsScreen';
 import AdminRoute from './components/AdminRoute';
-
+// import PrescriptionForm from './screens/PrescriptionForm';
 import ChatScreen from './screens/Chat/ChatScreen';
 import { ChakraProvider } from '@chakra-ui/react';
 import VideoScreen from './screens/VideoScreen';
@@ -164,9 +164,9 @@ function App() {
                       <LinkContainer to="/admin/doctors">
                         <NavDropdown.Item>Doctors</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/prescriptions">
+                      {/* <LinkContainer to="/admin/prescriptions">
                         <NavDropdown.Item>Prescriptions</NavDropdown.Item>
-                      </LinkContainer>
+                      </LinkContainer> */}
                       <LinkContainer to="/admin/appointments">
                         <NavDropdown.Item>Appointments</NavDropdown.Item>
                       </LinkContainer>
@@ -175,13 +175,13 @@ function App() {
                       </LinkContainer>
                     </NavDropdown>
                   )}
-                  {userInfo && userInfo.isDoctor && (
+                  {/* {userInfo && userInfo.isDoctor && (
                     <NavDropdown title="Doctor" id="admin-nav-dropdown">
                       <LinkContainer to="/doctor/prescriptions">
                         <NavDropdown.Item>Prescriptions</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
-                  )}
+                  )} */}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -333,15 +333,15 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              <Route
+              {/* <Route
                 path="/admin/prescriptions"
                 element={
                   <AdminRoute>
                     <PrescriptionsScreen />
                   </AdminRoute>
                 }
-              ></Route>
-              <Route
+              ></Route> */}
+               {/* <Route
                 path="/doctor/prescriptions"
                 element={
                   userInfo &&
@@ -349,7 +349,18 @@ function App() {
                     <PrescriptionsScreen />
                   )
                 }
-              ></Route>
+              ></Route>  */}
+              {/* <Route
+                path="/doctor/prescriptionform"
+                element={
+                  userInfo &&
+                  (userInfo.isAdmin || userInfo.isDoctor) && (
+                    <PrescriptionForm />
+                  )
+                }
+              ></Route>  */}
+              {/* <Route path="/doctor/prescriptionform" component={<PrescriptionForm />} /> */}
+              
               <Route path="/Doctors" element={<HomeScreen />} />
               <Route path="/" element={<Home />} />
             </Routes>

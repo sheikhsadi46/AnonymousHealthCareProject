@@ -85,7 +85,7 @@ export default function AppointmentScreen() {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
-    timeZoneName: 'short',
+   
   };
   const formattedDeliveredAt = deliveredAtDate.toLocaleString(
     undefined,

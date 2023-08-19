@@ -14,13 +14,17 @@ import Lottie from 'react-lottie';
 import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
-import {io} from "socket.io-client";
+import { io } from 'socket.io-client';
+import { Link } from 'react-router-dom';
+import { ViewIcon } from '@chakra-ui/icons';
 // import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from '../Context/ChatProvider';
+import Button from 'react-bootstrap/Button';
+import PrescriptionForm from '../screens/PrescriptionForm';
 
-const ENDPOINT = "https://anonymoushealthcareproject.onrender.com/"; // -> after deployment
+const ENDPOINT = 'https://anonymoushealthcareproject.onrender.com/'; // -> after deployment
+// const ENDPOINT = 'http://localhost:4000/';
 var socket, selectedChatCompare;
-
 
 export default function SingleChat({ fetchAgain, setFetchAgain }) {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -30,9 +34,9 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState('');
-    const [socketConnected, setSocketConnected] = useState(false);
-    const [typing, setTyping] = useState(false);
-    const [istyping, setIsTyping] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
   const fetchMessages = async () => {
@@ -55,7 +59,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
       setMessages(data);
       setLoading(false);
 
-      socket.emit("join chat", selectedChat._id);
+      socket.emit('join chat', selectedChat._id);
     } catch (error) {
       toast({
         title: 'Error Occured!',
@@ -88,7 +92,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
         );
         // console.log(data);
 
-          socket.emit("new message", data);
+        socket.emit('new message', data);
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -107,12 +111,12 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
   };
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit("setup", userInfo);
-    socket.on("connected", () => setSocketConnected(true));
-//     socket.on("typing", () => setIsTyping(true));
-//     socket.on("stop typing", () => setIsTyping(false));
+    socket.emit('setup', userInfo);
+    socket.on('connected', () => setSocketConnected(true));
+    //     socket.on("typing", () => setIsTyping(true));
+    //     socket.on("stop typing", () => setIsTyping(false));
 
-//     // eslint-disable-next-line
+    //     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -122,10 +126,8 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
     // eslint-disable-next-line
   }, [selectedChat]);
 
-
-
-    useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
+  useEffect(() => {
+    socket.on('message recieved', (newMessageRecieved) => {
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -154,9 +156,9 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
             alignItems="center"
           >
             {/* <IconButton
-              d={{ base: "flex", md: "none" }}
+              d={{ base: 'flex', md: 'none' }}
               icon={<ArrowBackIcon />}
-              onClick={() => setSelectedChat("")}
+              onClick={() => setSelectedChat('')}
             /> */}
             {!selectedChat.isGroupChat ? (
               <>
